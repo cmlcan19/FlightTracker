@@ -1,0 +1,50 @@
+
+# Gizli bilgiler
+.env
+.env.*
+!.env.example
+
+# .NET
+**/bin/
+**/obj/
+
+# Frontend
+**/node_modules/
+**/dist/
+
+# IDE
+.vs/
+.vscode/
+
+# Sistem
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Frontend
+**/node_modules/
+**/dist/
+**/.vite/
+
+# IDE
+.vs/
+.idea/
+
+# Test outputs
+**/TestResults/
+**/coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+*.log
+.cleanup-backup/

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FlightTracker.Api/FlightTracker.Api.csproj" />
+    <Project Path="src/FlightTracker.Consumer/FlightTracker.Consumer.csproj" />
+    <Project Path="src/FlightTracker.Producer/FlightTracker.Producer.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FlightTracker.Tests/FlightTracker.Tests.csproj" />
+  </Folder>
+</Solution>
