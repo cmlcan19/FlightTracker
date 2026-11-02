@@ -64,16 +64,32 @@ public sealed class LiveFlightConsumer : BackgroundService
             {
                 var result = consumer.Consume(stoppingToken);
 
-                var flight =
-                    JsonSerializer.Deserialize<FlightObservation>(
-                        result.Message.Value)
-                    ?? throw new JsonException(
-                        "Mesajdan uçak gözlemi oluşturulamadı.");
+                FlightObservation? flight;
 
-                if (string.IsNullOrWhiteSpace(flight.Icao24))
+                try
                 {
-                    throw new JsonException(
-                        "Mesajdaki uçak kimliği boş.");
+                    flight = JsonSerializer.Deserialize<FlightObservation>(
+                        result.Message?.Value ?? string.Empty);
+
+                    if (flight is null ||
+                        string.IsNullOrWhiteSpace(flight.Icao24))
+                    {
+                        throw new JsonException(
+                            "Gecersiz veya eksik ucak kimligi.");
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    consumer.Commit(result);
+
+                    _logger.LogWarning(
+                        "Gecersiz Kafka mesaji atlandi | Topic: {Topic} | Partition: {Partition} | Offset: {Offset} | Sebep: {Reason}",
+                        result.Topic,
+                        result.Partition.Value,
+                        result.Offset.Value,
+                        ex.Message);
+
+                    continue;
                 }
 
                 await _hub.Clients.All.SendAsync(
